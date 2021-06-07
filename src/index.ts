@@ -6,6 +6,7 @@ export {
 export {
   swipeHistory,
   memoPanel,
+  memoView,
   paramsModal,
   paramsPopout
 } from './integration.js';
