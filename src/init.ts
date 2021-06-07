@@ -3,6 +3,9 @@ import { findLastIndex } from './utils_deprecated.js';
 import { realHistory, setHistory } from './real.js';
 
 const popHandler = ({ state }: PopStateEvent) => {
+  // prevent edge case
+  state = Object(state);
+
   const to = findLastIndex(realHistory, (item) => item.id === state.id);
   if (to === -1) {
     // TODO: warn
