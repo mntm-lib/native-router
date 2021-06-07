@@ -56,7 +56,8 @@ export {
   useMemoPanel,
   useParamsModal,
   useParamsPopout,
-  useSwipeHistory
+  useSwipeHistory,
+  useHistoryUpdate
 } from './hooks.js';
 
 export type {
