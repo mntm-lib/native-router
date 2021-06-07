@@ -33,6 +33,20 @@ export const swipeHistory = (): string[] => {
 
 // WeakMap throws error in firefox, so just Map
 // See: https://caniuse.com/mdn-javascript_builtins_weakmap_get
+const memoizedViews = new Map();
+export const memoView = (assignRoot: string, currentRoot: string): string => {
+  const { view } = realCurrent();
+
+  if (assignRoot === currentRoot) {
+    memoizedViews.set(assignRoot, view);
+    return view;
+  }
+
+  return memoizedViews.get(assignRoot) || view;
+};
+
+// WeakMap throws error in firefox, so just Map
+// See: https://caniuse.com/mdn-javascript_builtins_weakmap_get
 const memoizedPanels = new Map();
 export const memoPanel = (assignView: string, currentView: string): string => {
   const { panel } = realCurrent();

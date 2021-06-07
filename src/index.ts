@@ -54,6 +54,7 @@ export {
 
 export {
   useMemoPanel,
+  useMemoView,
   useParamsModal,
   useParamsPopout,
   useSwipeHistory,

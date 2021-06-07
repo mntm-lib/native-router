@@ -18,6 +18,7 @@ export {
   swipeHistory as useSwipeHistory,
 
   memoPanel as useMemoPanel,
+  memoView as useMemoView,
 
   paramsModal as useParamsModal,
   paramsPopout as useParamsPopout
