@@ -28,6 +28,13 @@ export {
 } from './native.js';
 
 export {
+  pop,
+  popModal,
+  popOverlay,
+  popPopout
+} from './pop.js';
+
+export {
   push,
   pushPanel,
   pushPartial,
