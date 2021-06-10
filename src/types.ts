@@ -16,6 +16,14 @@ export type RealHistoryItem = {
   params: RealHistoryParams;
 };
 
+export type RealHistoryInit = {
+  root: string;
+  view: string;
+  panel: string;
+
+  params?: Optional<RealHistoryParams>;
+};
+
 export type RealHistoryFallback = {
   view: string;
   panel: string;

@@ -1,6 +1,6 @@
 import type { RealHistoryItem } from './types.js';
 
-import { findLastIndex, isShallowEqual } from '@mntm/shared';
+import { __dev__, findLastIndex, isShallowEqual } from '@mntm/shared';
 
 import { realHistory, realIndex, setHistory } from './real.js';
 import { moveNative } from './native.js';
@@ -28,12 +28,26 @@ export const moveToUnsafe = (to: number) => {
 };
 
 export const moveBy = (by: number) => {
+  if (__dev__) {
+    if (!canMoveBy(by)) {
+      console.warn('Nowhere to move.');
+      console.warn('Make sure you are doing it right.');
+    }
+  }
+
   if (canMoveBy(by)) {
     moveByUnsafe(by);
   }
 };
 
 export const moveTo = (to: number) => {
+  if (__dev__) {
+    if (!canMoveTo(to)) {
+      console.warn('Nowhere to move.');
+      console.warn('Make sure you are doing it right.');
+    }
+  }
+
   if (canMoveTo(to)) {
     moveToUnsafe(to);
   }

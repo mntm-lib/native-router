@@ -1,6 +1,6 @@
 import type { RealHistoryItem } from './types.js';
 
-import { isEmptyArray } from '@mntm/shared';
+import { __dev__, isEmptyArray } from '@mntm/shared';
 
 import { realCurrent, realHistory } from './real.js';
 import { popNative } from './native.js';
@@ -13,14 +13,24 @@ export const canPop = () => {
 export const popUnsafe = popNative;
 
 export const pop = () => {
+  if (__dev__) {
+    if (!canPop()) {
+      console.warn('Nowhere to pop.');
+      console.warn('Make sure you are doing it right.');
+    }
+  }
+
   if (canPop()) {
     popUnsafe();
   }
 };
 
 export const popIfCan = (): boolean => {
-  pop();
-  return !canPop();
+  const can = canPop();
+  if (can) {
+    popUnsafe();
+  }
+  return !can;
 };
 
 export const popOverlay = () => {
