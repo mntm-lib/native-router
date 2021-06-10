@@ -1,4 +1,4 @@
-import { default as mitt } from 'mitt';
+import { mitt } from '@mntm/shared';
 
 export const rawHistory = mitt();
 export const history = {

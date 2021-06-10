@@ -1,6 +1,7 @@
-import { findLastIndex } from './utils_deprecated.js';
+import { __dev__, findLastIndex } from '@mntm/shared';
 
 import { realHistory, setHistory } from './real.js';
+import { popNative } from './native.js';
 
 const popHandler = ({ state }: PopStateEvent) => {
   // prevent edge case
@@ -8,7 +9,14 @@ const popHandler = ({ state }: PopStateEvent) => {
 
   const to = findLastIndex(realHistory, (item) => item.id === state.id);
   if (to === -1) {
-    // TODO: warn
+    if (__dev__) {
+      console.warn('Something went wrong. History moved forward or changed from outside.');
+      console.warn('Try to get back to normal.');
+    }
+
+    // prevent
+    popNative();
+
     return;
   }
 

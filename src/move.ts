@@ -1,10 +1,20 @@
+import type { RealHistoryItem } from './types.js';
+
+import { findLastIndex, isShallowEqual } from '@mntm/shared';
+
 import { realHistory, realIndex, setHistory } from './real.js';
-import { findLastIndex } from './utils_deprecated.js';
-
 import { moveNative } from './native.js';
-import { RealHistoryItem } from './types.js';
 
-export const moveBy = (by: number) => {
+export const canMoveTo = (to: number) => {
+  return to !== -1 && to < realIndex();
+};
+
+export const canMoveBy = (by: number) => {
+  const to = realIndex() + by;
+  return canMoveTo(to);
+};
+
+export const moveByUnsafe = (by: number) => {
   // real
   setHistory(realHistory.slice(0, by));
 
@@ -12,32 +22,49 @@ export const moveBy = (by: number) => {
   moveNative(by);
 };
 
-export const moveToGeneric = (key: keyof RealHistoryItem, value: string) => {
-  const to = findLastIndex(realHistory, (item) => item[key] === value);
-  if (to === -1) {
-    // TODO: warn
-    return;
-  }
+export const moveToUnsafe = (to: number) => {
   const by = to - realIndex();
-  if (by === 0) {
-    // TODO: warn
-    return;
+  moveByUnsafe(by);
+};
+
+export const moveBy = (by: number) => {
+  if (canMoveBy(by)) {
+    moveByUnsafe(by);
   }
-  moveBy(by);
+};
+
+export const moveTo = (to: number) => {
+  if (canMoveTo(to)) {
+    moveToUnsafe(to);
+  }
+};
+
+export const moveToParams = (params: RealHistoryItem['params']) => {
+  const to = findLastIndex(realHistory, (item) => isShallowEqual(item.params, params));
+  moveTo(to);
 };
 
 export const moveToPanel = (panel: string) => {
-  moveToGeneric('panel', panel);
+  const to = findLastIndex(realHistory, (item) => item.panel === panel);
+  moveTo(to);
 };
 
 export const moveToView = (view: string) => {
-  moveToGeneric('view', view);
+  const to = findLastIndex(realHistory, (item) => item.view === view);
+  moveTo(to);
+};
+
+export const moveToPanelInView = (panel: string, view: string) => {
+  const to = findLastIndex(realHistory, (item) => item.panel === panel && item.view === view);
+  moveTo(to);
 };
 
 export const moveToRoot = (root: string) => {
-  moveToGeneric('root', root);
+  const to = findLastIndex(realHistory, (item) => item.root === root);
+  moveTo(to);
 };
 
-export const moveTo = (id: string) => {
-  moveToGeneric('id', id);
+export const moveToId = (id: string) => {
+  const to = findLastIndex(realHistory, (item) => item.id === id);
+  moveTo(to);
 };

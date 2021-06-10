@@ -14,10 +14,16 @@ export {
 export {
   moveBy,
   moveTo,
-  moveToGeneric,
   moveToPanel,
   moveToRoot,
-  moveToView
+  moveToView,
+  moveToPanelInView,
+  moveToId,
+  moveToParams,
+  canMoveBy,
+  canMoveTo,
+  moveByUnsafe,
+  moveToUnsafe
 } from './move.js';
 
 export {
@@ -32,14 +38,29 @@ export {
   pop,
   popModal,
   popOverlay,
-  popPopout
+  popPopout,
+  canPop,
+  popIfCan,
+  popOrClearModal,
+  popOrClearOverlay,
+  popOrClearParams,
+  popOrClearPopout,
+  popOrReplace,
+  popOrReplacePanel,
+  popOrReplaceParams,
+  popOrReplacePartial,
+  popOrReplacePartialParams,
+  popOrReplaceView,
+  popUnsafe
 } from './pop.js';
 
 export {
   push,
   pushPanel,
   pushPartial,
-  pushView
+  pushView,
+  pushParams,
+  pushPartialParams
 } from './push.js';
 
 export {
@@ -53,7 +74,13 @@ export {
   replace,
   replacePanel,
   replacePartial,
-  replaceView
+  replaceView,
+  replaceClearParams,
+  replaceClearParamsExceptModal,
+  replaceClearParamsExceptOverlay,
+  replaceClearParamsExceptPopout,
+  replaceParams,
+  replacePartialParams
 } from './replace.js';
 
 export {

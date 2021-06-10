@@ -13,8 +13,8 @@
   "devDependencies": {
     "@mntm/eslint-config": "^0.2.0",
     "@types/jest": "^26.0.23",
-    "@types/jsdom": "^16.2.10",
-    "@types/react": "^17.0.9",
+    "@types/jsdom": "^16.2.11",
+    "@types/react": "^17.0.11",
     "eslint": "^7.28.0",
     "jest": "^27.0.4",
     "jsdom": "^16.6.0",
@@ -23,7 +23,6 @@
     "typescript": "^4.3.2"
   },
   "dependencies": {
-    "@mntm/shared": "^1.1.1",
-    "mitt": "^2.1.0"
+    "@mntm/shared": "^2.0.0"
   }
 }

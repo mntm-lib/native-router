@@ -1,10 +1,10 @@
-export type Nullable<T> = T | null | undefined;
+import type { Optional } from '@mntm/shared';
 
 export type RealHistoryParams = {
-  modal?: Nullable<string>;
-  popout?: Nullable<string>;
+  modal?: Optional<string>;
+  popout?: Optional<string>;
 
-  [key: string]: Nullable<string>;
+  [key: string]: Optional<string>;
 };
 
 export type RealHistoryItem = {
@@ -19,7 +19,7 @@ export type RealHistoryItem = {
 export type RealHistoryFallback = {
   view: string;
   panel: string;
-  params?: RealHistoryParams;
+  params?: Optional<RealHistoryParams>;
 };
 
 export type NativeHistoryItem = {
