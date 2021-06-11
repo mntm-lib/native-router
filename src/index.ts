@@ -98,6 +98,14 @@ export {
   useCurrentActionRef
 } from './hooks.js';
 
+export {
+  historyEmitter,
+  afterUpdateHistory,
+  subscribeHistory,
+  unsubscribeHistory,
+  updateHistory
+} from './history.js';
+
 export type {
   NativeHistoryItem,
   RealHistoryFallback,

@@ -4,7 +4,7 @@ import { __dev__, findLastIndex, isShallowEqual, isPartialEqual } from '@mntm/sh
 
 import { realHistory, realIndex, setHistory } from './real.js';
 import { moveNative } from './native.js';
-import { history } from './history.js';
+import { afterUpdateHistory } from './history.js';
 
 export const canMoveTo = (to: number) => {
   return to !== -1 && to < realIndex();
@@ -86,14 +86,14 @@ export const moveToId = (id: string) => {
 
 export const moveByWithCallback = (by: number, callback: VoidFunction) => {
   if (canMoveBy(by)) {
-    history.afterUpdate(callback);
+    afterUpdateHistory(callback);
   }
   moveBy(by);
 };
 
 export const moveToWithCallback = (to: number, callback: VoidFunction) => {
   if (canMoveTo(to)) {
-    history.afterUpdate(callback);
+    afterUpdateHistory(callback);
   }
   moveTo(to);
 };

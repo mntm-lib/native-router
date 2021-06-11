@@ -2,15 +2,15 @@ import type { Optional } from '@mntm/shared';
 
 import { __dev__, useHandler, useMount, useUpdate } from '@mntm/shared';
 
-import { history } from './history.js';
+import { subscribeHistory, unsubscribeHistory } from './history.js';
 import { realCurrent } from './real.js';
 
 export const useHistoryUpdate = () => {
   const update = useUpdate();
 
   useMount(() => {
-    history.subscribe(update);
-    return () => history.unsubscribe(update);
+    subscribeHistory(update);
+    return () => unsubscribeHistory(update);
   });
 
   return realCurrent();
