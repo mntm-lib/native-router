@@ -1,9 +1,10 @@
 import type { RealHistoryItem } from './types.js';
 
-import { __dev__, findLastIndex, isShallowEqual } from '@mntm/shared';
+import { __dev__, findLastIndex, isShallowEqual, isPartialEqual } from '@mntm/shared';
 
 import { realHistory, realIndex, setHistory } from './real.js';
 import { moveNative } from './native.js';
+import { history } from './history.js';
 
 export const canMoveTo = (to: number) => {
   return to !== -1 && to < realIndex();
@@ -53,32 +54,51 @@ export const moveTo = (to: number) => {
   }
 };
 
+export const moveToPartial = (item: Partial<RealHistoryItem>) => {
+  const to = findLastIndex(realHistory, (real) => isPartialEqual(item, real));
+  moveTo(to);
+};
+
 export const moveToParams = (params: RealHistoryItem['params']) => {
   const to = findLastIndex(realHistory, (item) => isShallowEqual(item.params, params));
   moveTo(to);
 };
 
 export const moveToPanel = (panel: string) => {
-  const to = findLastIndex(realHistory, (item) => item.panel === panel);
-  moveTo(to);
+  moveToPartial({ panel });
 };
 
 export const moveToView = (view: string) => {
-  const to = findLastIndex(realHistory, (item) => item.view === view);
-  moveTo(to);
+  moveToPartial({ view });
 };
 
 export const moveToPanelInView = (panel: string, view: string) => {
-  const to = findLastIndex(realHistory, (item) => item.panel === panel && item.view === view);
-  moveTo(to);
+  moveToPartial({ panel, view });
 };
 
 export const moveToRoot = (root: string) => {
-  const to = findLastIndex(realHistory, (item) => item.root === root);
-  moveTo(to);
+  moveToPartial({ root });
 };
 
 export const moveToId = (id: string) => {
-  const to = findLastIndex(realHistory, (item) => item.id === id);
+  moveToPartial({ id });
+};
+
+export const moveByWithCallback = (by: number, callback: VoidFunction) => {
+  if (canMoveBy(by)) {
+    history.afterUpdate(callback);
+  }
+  moveBy(by);
+};
+
+export const moveToWithCallback = (to: number, callback: VoidFunction) => {
+  if (canMoveTo(to)) {
+    history.afterUpdate(callback);
+  }
   moveTo(to);
+};
+
+export const moveToPartialWithCallback = (item: Partial<RealHistoryItem>, callback: VoidFunction) => {
+  const to = findLastIndex(realHistory, (real) => isPartialEqual(item, real));
+  moveToWithCallback(to, callback);
 };

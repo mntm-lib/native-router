@@ -23,6 +23,6 @@
     "typescript": "^4.3.2"
   },
   "dependencies": {
-    "@mntm/shared": "^2.0.0"
+    "@mntm/shared": "^2.1.0"
   }
 }
