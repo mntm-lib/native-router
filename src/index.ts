@@ -93,7 +93,9 @@ export {
   useParamsModal,
   useParamsPopout,
   useSwipeHistory,
-  useHistoryUpdate
+  useHistoryUpdate,
+  useActionRef,
+  useCurrentActionRef
 } from './hooks.js';
 
 export type {
