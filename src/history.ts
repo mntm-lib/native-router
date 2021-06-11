@@ -12,10 +12,10 @@ export const unsubscribeHistory = (handle: VoidFunction) => {
 
 export const afterUpdateHistory = (handle: VoidFunction) => {
   const once = () => {
-    subscribeHistory(once);
+    unsubscribeHistory(once);
     handle();
   };
-  unsubscribeHistory(once);
+  subscribeHistory(once);
 };
 
 export const updateHistory = () => {
