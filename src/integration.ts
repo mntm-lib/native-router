@@ -16,7 +16,7 @@ export const swipeHistory = (): string[] => {
   }
 
   // nowhere to swipe
-  if (i < 0) {
+  if (i <= 0) {
     return [];
   }
 
