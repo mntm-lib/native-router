@@ -9,14 +9,14 @@ export const swipeHistory = (): string[] => {
   }
 
   let i = realIndex() - 1;
-  for (; i !== -1 && current.view === realHistory[i].view; --i) {
+  for (; i >= 0 && current.view === realHistory[i].view; --i) {
     if (current.panel !== realHistory[i].panel) {
       break;
     }
   }
 
   // nowhere to swipe
-  if (i === -1) {
+  if (i < 0) {
     return [];
   }
 
