@@ -1,4 +1,4 @@
-import type { RealHistoryItem } from './types.js';
+import type { RealHistoryParams, RealHistoryPartial } from './types.js';
 
 import { __dev__, findLastIndex, isShallowEqual, isPartialEqual } from '@mntm/shared';
 
@@ -54,12 +54,12 @@ export const moveTo = (to: number) => {
   }
 };
 
-export const moveToPartial = (item: Partial<RealHistoryItem>) => {
+export const moveToPartial = (item: Readonly<RealHistoryPartial>) => {
   const to = findLastIndex(realHistory, (real) => isPartialEqual(item, real));
   moveTo(to);
 };
 
-export const moveToParams = (params: RealHistoryItem['params']) => {
+export const moveToParams = (params: Readonly<RealHistoryParams>) => {
   const to = findLastIndex(realHistory, (item) => isShallowEqual(item.params, params));
   moveTo(to);
 };
@@ -98,7 +98,7 @@ export const moveToWithCallback = (to: number, callback: VoidFunction) => {
   moveTo(to);
 };
 
-export const moveToPartialWithCallback = (item: Partial<RealHistoryItem>, callback: VoidFunction) => {
+export const moveToPartialWithCallback = (item: Readonly<RealHistoryPartial>, callback: VoidFunction) => {
   const to = findLastIndex(realHistory, (real) => isPartialEqual(item, real));
   moveToWithCallback(to, callback);
 };

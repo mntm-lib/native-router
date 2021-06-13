@@ -28,8 +28,8 @@ const popHandler = ({ state }: PopStateEvent) => {
   // native noop
 };
 
-export const init = (item: RealHistoryInit) => {
-  const first = item as unknown as RealHistoryItem;
+export const init = (item: Readonly<RealHistoryInit>) => {
+  const first = item as RealHistoryItem;
 
   const id = weakUniqueId();
 

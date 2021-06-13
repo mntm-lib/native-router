@@ -1,5 +1,6 @@
 import { realHistory, realIndex, realCurrent } from './real.js';
 
+// cannot be marked as readonly
 export const swipeHistory = (): string[] => {
   const index = realIndex();
 

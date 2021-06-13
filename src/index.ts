@@ -112,5 +112,7 @@ export type {
   NativeHistoryItem,
   RealHistoryFallback,
   RealHistoryItem,
+  RealHistoryInit,
+  RealHistoryPartial,
   RealHistoryParams
 } from './types.js';

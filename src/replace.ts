@@ -1,25 +1,27 @@
-import type { RealHistoryItem } from './types.js';
+import type { RealHistoryItem, RealHistoryParams, RealHistoryPartial } from './types.js';
 
 import { realCurrent, realIndex, realHistory, setHistory } from './real.js';
 
 import { replaceNative } from './native.js';
 
-export const replace = (item: RealHistoryItem) => {
+export const replace = (item: Readonly<RealHistoryItem>) => {
+  const next = item as RealHistoryItem;
+
   const id = realCurrent().id;
 
   // update item
-  item.id = id;
-  item.params = Object.assign({}, item.params);
+  next.id = id;
+  next.params = Object.assign({}, item.params);
 
   // real
-  realHistory[realIndex()] = item;
+  realHistory[realIndex()] = next;
   setHistory(realHistory);
 
   // native
   replaceNative({ id });
 };
 
-export const replacePartial = (item: Partial<RealHistoryItem>) => {
+export const replacePartial = (item: Readonly<RealHistoryPartial>) => {
   replace(Object.assign({}, realCurrent(), item));
 };
 
@@ -31,11 +33,11 @@ export const replaceView = (panel: string, view: string) => {
   replacePartial({ panel, view });
 };
 
-export const replaceParams = (params: RealHistoryItem['params']) => {
+export const replaceParams = (params: Readonly<RealHistoryParams>) => {
   replacePartial({ params });
 };
 
-export const replacePartialParams = (params: RealHistoryItem['params']) => {
+export const replacePartialParams = (params: Readonly<RealHistoryParams>) => {
   const current = realCurrent();
   replaceParams(Object.assign({}, current.params, params));
 };

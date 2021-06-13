@@ -16,6 +16,8 @@ export type RealHistoryItem = {
   params: RealHistoryParams;
 };
 
+export type RealHistoryPartial = Partial<RealHistoryItem>;
+
 export type RealHistoryInit = {
   root: string;
   view: string;

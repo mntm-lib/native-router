@@ -6,11 +6,11 @@ const nativeHistory = window.history;
 // so just empty string
 const NATIVE_STUB = '';
 
-export const pushNative = (item: NativeHistoryItem) => {
+export const pushNative = (item: Readonly<NativeHistoryItem>) => {
   nativeHistory.pushState(item, NATIVE_STUB);
 };
 
-export const replaceNative = (item: NativeHistoryItem) => {
+export const replaceNative = (item: Readonly<NativeHistoryItem>) => {
   nativeHistory.replaceState(item, NATIVE_STUB);
 };
 

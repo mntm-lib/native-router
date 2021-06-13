@@ -1,4 +1,4 @@
-import type { RealHistoryItem, RealHistoryFallback } from './types.js';
+import type { RealHistoryItem, RealHistoryFallback, RealHistoryPartial } from './types.js';
 
 import { findIndex, findLastIndex } from '@mntm/shared';
 
@@ -6,7 +6,7 @@ import { realHistory, setHistory } from './real.js';
 
 import { pushPartial } from './push.js';
 
-export const changeRoot = (root: string, fallback: RealHistoryFallback) => {
+export const changeRoot = (root: string, fallback: Readonly<RealHistoryFallback>) => {
   const sameRoot = (item: RealHistoryItem) => {
     return item.root === root;
   };
@@ -16,7 +16,7 @@ export const changeRoot = (root: string, fallback: RealHistoryFallback) => {
     // not found in history
 
     // push new root
-    const partial = fallback as unknown as Partial<RealHistoryItem>;
+    const partial = fallback as RealHistoryPartial;
     partial.root = root;
     pushPartial(partial);
   } else {

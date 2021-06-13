@@ -5,6 +5,7 @@ import { __dev__, useHandler, useMount, useUpdate, useCreation, findLast } from 
 import { watchHistory, unwatchHistory } from './history.js';
 import { realCurrent, realHistory } from './real.js';
 
+// cannot be marked as readonly
 export const useHistoryUpdate = () => {
   const update = useUpdate();
 
@@ -27,7 +28,7 @@ export const useCurrentActionRef = () => {
   }
 
   // handle mistypes?
-  return actionRef as unknown as Element;
+  return actionRef as Element;
 };
 export const useActionRef = (handler: (el: Element) => void) => {
   const ref = useHandler((el: Optional<Element>) => {
@@ -52,6 +53,7 @@ export const useActionRef = (handler: (el: Element) => void) => {
   return [ref, action] as const;
 };
 
+// cannot be marked as readonly
 export const useMemoCurrent = (assignPanel: string) => {
   return useCreation(() => {
     const current = findLast(realHistory, (item) => item.panel === assignPanel);
@@ -65,6 +67,7 @@ export const useMemoCurrent = (assignPanel: string) => {
   });
 };
 
+// cannot be marked as readonly
 export const useMemoParams = (assignPanel: string) => {
   return useMemoCurrent(assignPanel).params;
 };

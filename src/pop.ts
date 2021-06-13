@@ -1,4 +1,4 @@
-import type { RealHistoryItem } from './types.js';
+import type { RealHistoryItem, RealHistoryParams, RealHistoryPartial } from './types.js';
 
 import { __dev__, isEmptyArray } from '@mntm/shared';
 
@@ -54,13 +54,13 @@ export const popPopout = () => {
   }
 };
 
-export const popOrReplace = (item: RealHistoryItem) => {
+export const popOrReplace = (item: Readonly<RealHistoryItem>) => {
   if (popIfCan()) {
     replace(item);
   }
 };
 
-export const popOrReplacePartial = (item: Partial<RealHistoryItem>) => {
+export const popOrReplacePartial = (item: Readonly<RealHistoryPartial>) => {
   if (popIfCan()) {
     replacePartial(item);
   }
@@ -105,13 +105,13 @@ export const popOrClearPopout = () => {
   }
 };
 
-export const popOrReplacePartialParams = (params: RealHistoryItem['params']) => {
+export const popOrReplacePartialParams = (params: Readonly<RealHistoryParams>) => {
   if (popIfCan()) {
     replacePartialParams(params);
   }
 };
 
-export const popOrReplaceParams = (params: RealHistoryItem['params']) => {
+export const popOrReplaceParams = (params: Readonly<RealHistoryParams>) => {
   if (popIfCan()) {
     replaceParams(params);
   }
