@@ -1,22 +1,29 @@
-import { realHistory, realCurrent, realIndex } from './real.js';
+import { realHistory, realIndex, realCurrent } from './real.js';
 
 export const swipeHistory = (): string[] => {
-  const current = realCurrent();
+  const index = realIndex();
+
+  // nowhere to swipe
+  if (index < 1) {
+    return [];
+  }
+
+  const current = realHistory[index];
 
   // has overlay
   if (current.params.modal || current.params.popout) {
     return [];
   }
 
-  let i = realIndex() - 1;
-  for (; i >= 0 && current.view === realHistory[i].view; --i) {
+  let i = index - 1;
+  for (; i !== -1 && current.view === realHistory[i].view; --i) {
     if (current.panel !== realHistory[i].panel) {
       break;
     }
   }
 
   // nowhere to swipe
-  if (i <= 0) {
+  if (i === -1) {
     return [];
   }
 
