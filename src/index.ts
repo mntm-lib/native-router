@@ -101,8 +101,8 @@ export {
 export {
   historyEmitter,
   afterUpdateHistory,
-  subscribeHistory,
-  unsubscribeHistory,
+  watchHistory,
+  unwatchHistory,
   updateHistory
 } from './history.js';
 
