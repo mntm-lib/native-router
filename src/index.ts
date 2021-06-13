@@ -108,6 +108,11 @@ export {
   updateHistory
 } from './history.js';
 
+export {
+  buildLocation,
+  setLocationHandler
+} from './location.js';
+
 export type {
   NativeHistoryItem,
   RealHistoryFallback,
