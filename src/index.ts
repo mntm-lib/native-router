@@ -95,7 +95,9 @@ export {
   useSwipeHistory,
   useHistoryUpdate,
   useActionRef,
-  useCurrentActionRef
+  useCurrentActionRef,
+  useMemoCurrent,
+  useMemoParams
 } from './hooks.js';
 
 export {

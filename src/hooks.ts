@@ -1,9 +1,9 @@
 import type { Optional } from '@mntm/shared';
 
-import { __dev__, useHandler, useMount, useUpdate } from '@mntm/shared';
+import { __dev__, useHandler, useMount, useUpdate, useCreation, findLast } from '@mntm/shared';
 
 import { watchHistory, unwatchHistory } from './history.js';
-import { realCurrent } from './real.js';
+import { realCurrent, realHistory } from './real.js';
 
 export const useHistoryUpdate = () => {
   const update = useUpdate();
@@ -21,7 +21,7 @@ let actionRef: Optional<Element> = null;
 export const useCurrentActionRef = () => {
   if (__dev__) {
     if (!actionRef && realCurrent().params.popout) {
-      console.warn('Found popup without action ref.');
+      console.warn('Popout is found without action ref.');
       console.warn('Make sure you are doing it right.');
     }
   }
@@ -39,7 +39,7 @@ export const useActionRef = (handler: (el: Element) => void) => {
   const action = useHandler(() => {
     if (__dev__) {
       if (!actionRef) {
-        console.warn('Action called without element.');
+        console.warn('Action is called without element.');
         console.warn('Make sure you are doing it right.');
       }
     }
@@ -50,6 +50,23 @@ export const useActionRef = (handler: (el: Element) => void) => {
   });
 
   return [ref, action] as const;
+};
+
+export const useMemoCurrent = (assignPanel: string) => {
+  return useCreation(() => {
+    const current = findLast(realHistory, (item) => item.panel === assignPanel);
+    if (__dev__) {
+      if (!current) {
+        console.warn('Passed panel is not found in history.');
+        console.warn('Make sure you are doing it right.');
+      }
+    }
+    return current || realCurrent();
+  });
+};
+
+export const useMemoParams = (assignPanel: string) => {
+  return useMemoCurrent(assignPanel).params;
 };
 
 // re-export all as hooks
