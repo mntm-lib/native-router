@@ -1,13 +1,13 @@
 import type { RealHistoryItem, RealHistoryParams, RealHistoryPartial } from './types.js';
 
-import { __dev__, isEmptyArray } from '@mntm/shared';
+import { __dev__ } from '@mntm/shared';
 
 import { realCurrent, realHistory } from './real.js';
 import { popNative } from './native.js';
 import { replace, replacePartial, replacePanel, replaceView, replacePartialParams, replaceParams } from './replace.js';
 
 export const canPop = () => {
-  return !isEmptyArray(realHistory);
+  return realHistory.length > 1;
 };
 
 export const popUnsafe = popNative;
