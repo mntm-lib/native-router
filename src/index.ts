@@ -110,6 +110,7 @@ export {
 
 export {
   buildLocation,
+  parseLocation,
   setLocationHandler
 } from './location.js';
 

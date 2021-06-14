@@ -1,6 +1,6 @@
 import type { RealHistoryItem } from './types.js';
 
-import { isOptional } from '@mntm/shared';
+import { isOptional, weakUniqueId } from '@mntm/shared';
 
 import { watchHistory } from './history.js';
 import { realCurrent } from './real.js';
@@ -42,6 +42,34 @@ export const buildLocation = (item: Readonly<RealHistoryItem>) => {
   }
 
   return location + '?' + params;
+};
+
+// fastest parse
+export const parseLocation = (location: string) => {
+  const split = location.split('?');
+
+  const structure = split[0].split(SEPARATOR);
+
+  const item: RealHistoryItem = {
+    id: weakUniqueId(),
+
+    panel: structure.pop() || EMPTY,
+    view: structure.pop() || EMPTY,
+    root: structure.pop() || EMPTY,
+
+    params: {}
+  };
+
+  if (split.length === 2) {
+    const pairs = split[1].split('&');
+
+    for (const pair of pairs) {
+      const parsed = pair.split('=');
+      item.params[parsed[0]] = parsed[1] || EMPTY;
+    }
+  }
+
+  return item;
 };
 
 export const setLocationHandler = (handler: (location: string) => void) => {
