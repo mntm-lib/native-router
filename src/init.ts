@@ -2,8 +2,18 @@ import type { RealHistoryInit, RealHistoryItem } from './types.js';
 
 import { __dev__, findLastIndex, weakUniqueId } from '@mntm/shared';
 
-import { realHistory, realIndex, setHistory } from './real.js';
-import { popNative, replaceNative } from './native.js';
+import { realCurrent, realHistory, realIndex, setHistory } from './real.js';
+import { popNative, pushNative, replaceNative } from './native.js';
+
+let locked = false;
+
+export const lock = () => {
+  locked = true;
+};
+
+export const unlock = () => {
+  locked = false;
+};
 
 const popHandler = ({ state }: PopStateEvent) => {
   // prevent edge case
@@ -22,10 +32,15 @@ const popHandler = ({ state }: PopStateEvent) => {
     return;
   }
 
-  // real
-  setHistory(realHistory.slice(0, to + 1));
+  if (locked) {
+    // prevent
+    pushNative({ id: realCurrent().id });
+  } else {
+    // real
+    setHistory(realHistory.slice(0, to + 1));
 
-  // native noop
+    // native noop
+  }
 };
 
 export const init = (item: Readonly<RealHistoryInit>) => {
