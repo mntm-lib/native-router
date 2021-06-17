@@ -46,6 +46,14 @@ export const replaceClearParams = () => {
   replaceParams({});
 };
 
+export const replaceModal = (modal: string) => {
+  replacePartialParams({ modal });
+};
+
+export const replacePopout = (popout: string) => {
+  replacePartialParams({ popout });
+};
+
 export const replaceClearParamsExceptOverlay = () => {
   const current = realCurrent();
   replaceParams({

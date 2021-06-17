@@ -42,3 +42,15 @@ export const pushPartialParams = (params: Readonly<RealHistoryParams>) => {
   const current = realCurrent();
   pushParams(Object.assign({}, current.params, params));
 };
+
+export const pushClearParams = () => {
+  pushParams({});
+};
+
+export const pushModal = (modal: string) => {
+  pushPartialParams({ modal });
+};
+
+export const pushPopout = (popout: string) => {
+  pushPartialParams({ popout });
+};

@@ -1,6 +1,7 @@
 export {
   start,
-  stop
+  stop,
+  init
 } from './init.js';
 
 export {
@@ -60,7 +61,10 @@ export {
   pushPartial,
   pushView,
   pushParams,
-  pushPartialParams
+  pushPartialParams,
+  pushClearParams,
+  pushModal,
+  pushPopout
 } from './push.js';
 
 export {
@@ -80,7 +84,9 @@ export {
   replaceClearParamsExceptOverlay,
   replaceClearParamsExceptPopout,
   replaceParams,
-  replacePartialParams
+  replacePartialParams,
+  replaceModal,
+  replacePopout
 } from './replace.js';
 
 export {
