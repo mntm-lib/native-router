@@ -33,6 +33,9 @@ export const buildLocation = (item: Readonly<RealHistoryItem>) => {
   for (const key in raw) {
     const value = raw[key];
     if (!isOptional(value)) {
+      if (params !== EMPTY) {
+        params += '&';
+      }
       params += key + '=' + value;
     }
   }
