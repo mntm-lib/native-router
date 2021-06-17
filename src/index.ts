@@ -1,7 +1,9 @@
 export {
   start,
   stop,
-  init
+  init,
+  lock,
+  unlock
 } from './init.js';
 
 export {
