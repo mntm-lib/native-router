@@ -2,41 +2,31 @@ import { realHistory, realIndex, realCurrent } from './real.js';
 
 // cannot be marked as readonly
 export const swipeHistory = (): string[] => {
-  const index = realIndex();
+  const currentIndex = realIndex();
 
   // nowhere to swipe
-  if (index < 1) {
+  if (currentIndex < 1) {
     return [];
   }
 
-  const current = realHistory[index];
+  const current = realHistory[currentIndex];
 
   // has overlay
   if (current.params.modal || current.params.popout) {
     return [];
   }
 
-  let i = index - 1;
-  for (; i !== -1 && current.view === realHistory[i].view; --i) {
-    if (current.panel !== realHistory[i].panel) {
-      break;
-    }
-  }
+  const back = realHistory[currentIndex - 1];
 
   // nowhere to swipe
-  if (i === -1) {
+  if (
+    back.root !== current.root ||
+    back.view !== current.view
+  ) {
     return [];
   }
 
-  const backPanel = realHistory[i].panel;
-  const currentPanel = current.panel;
-
-  // still same
-  if (backPanel === currentPanel) {
-    return [];
-  }
-
-  return [backPanel, currentPanel];
+  return [back.panel, current.panel];
 };
 
 // WeakMap throws error in firefox, so just Map
