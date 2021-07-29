@@ -1,10 +1,12 @@
 import type { RealHistoryParams, RealHistoryPartial } from './types.js';
 
-import { __dev__, findLastIndex, isShallowEqual, isPartialEqual } from '@mntm/shared';
+import { findLastIndex, isShallowEqual, isPartialEqual } from '@mntm/shared';
 
 import { realHistory, realIndex, setHistory } from './real.js';
-import { moveNative } from './native.js';
+import { moveByNative } from './native.js';
 import { afterUpdateHistory } from './history.js';
+
+const __dev__ = process.env.NODE_ENV === 'development';
 
 export const canMoveTo = (to: number) => {
   return to !== -1 && to < realIndex();
@@ -20,7 +22,7 @@ export const moveByUnsafe = (by: number) => {
   setHistory(realHistory.slice(0, by));
 
   // native
-  moveNative(by);
+  moveByNative(by);
 };
 
 export const moveToUnsafe = (to: number) => {
@@ -82,23 +84,4 @@ export const moveToRoot = (root: string) => {
 
 export const moveToId = (id: string) => {
   moveToPartial({ id });
-};
-
-export const moveByWithCallback = (by: number, callback: VoidFunction) => {
-  if (canMoveBy(by)) {
-    afterUpdateHistory(callback);
-  }
-  moveBy(by);
-};
-
-export const moveToWithCallback = (to: number, callback: VoidFunction) => {
-  if (canMoveTo(to)) {
-    afterUpdateHistory(callback);
-  }
-  moveTo(to);
-};
-
-export const moveToPartialWithCallback = (item: Readonly<RealHistoryPartial>, callback: VoidFunction) => {
-  const to = findLastIndex(realHistory, (real) => isPartialEqual(item, real));
-  moveToWithCallback(to, callback);
 };

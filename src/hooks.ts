@@ -1,9 +1,11 @@
 import type { Optional } from '@mntm/shared';
 
-import { __dev__, useHandler, useMount, useUpdate, useCreation, findLast } from '@mntm/shared';
+import { useHandler, useMount, useUpdate, useCreation, findLast } from '@mntm/shared';
 
 import { watchHistory, unwatchHistory } from './history.js';
 import { realCurrent, realHistory } from './real.js';
+
+const __dev__ = process.env.NODE_ENV === 'development';
 
 // cannot be marked as readonly
 export const useHistoryUpdate = () => {

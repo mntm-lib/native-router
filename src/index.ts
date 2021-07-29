@@ -30,8 +30,7 @@ export {
 } from './move.js';
 
 export {
-  goNative,
-  moveNative,
+  moveByNative,
   popNative,
   pushNative,
   replaceNative

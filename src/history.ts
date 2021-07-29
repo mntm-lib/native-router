@@ -1,13 +1,15 @@
-import { mitt } from '@mntm/shared';
+import { default as mitt } from 'mitt';
 
 export const historyEmitter = mitt();
 
+const EVENT = 'update';
+
 export const watchHistory = (handle: VoidFunction) => {
-  historyEmitter.on('update', handle);
+  historyEmitter.on(EVENT, handle);
 };
 
 export const unwatchHistory = (handle: VoidFunction) => {
-  historyEmitter.off('update', handle);
+  historyEmitter.off(EVENT, handle);
 };
 
 export const afterUpdateHistory = (handle: VoidFunction) => {
@@ -19,5 +21,5 @@ export const afterUpdateHistory = (handle: VoidFunction) => {
 };
 
 export const updateHistory = () => {
-  historyEmitter.emit('update');
+  historyEmitter.emit(EVENT);
 };

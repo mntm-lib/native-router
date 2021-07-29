@@ -21,7 +21,8 @@ export const swipeHistory = (): string[] => {
   // nowhere to swipe
   if (
     back.root !== current.root ||
-    back.view !== current.view
+    back.view !== current.view ||
+    back.panel === current.panel
   ) {
     return [];
   }

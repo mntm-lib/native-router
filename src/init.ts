@@ -1,9 +1,11 @@
 import type { RealHistoryInit, RealHistoryItem } from './types.js';
 
-import { __dev__, findLastIndex, weakUniqueId } from '@mntm/shared';
+import { findLastIndex, weakUniqueId } from '@mntm/shared';
 
 import { realCurrent, realHistory, realIndex, setHistory } from './real.js';
 import { popNative, pushNative, replaceNative } from './native.js';
+
+const __dev__ = process.env.NODE_ENV === 'development';
 
 let locked = false;
 

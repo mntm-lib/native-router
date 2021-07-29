@@ -18,10 +18,6 @@ export const popNative = () => {
   nativeHistory.back();
 };
 
-export const goNative = (delta: number) => {
-  nativeHistory.go(delta);
-};
-
-export const moveNative = (by: number) => {
-  nativeHistory.go(-1 * by);
+export const moveByNative = (by: number) => {
+  nativeHistory.go(by);
 };

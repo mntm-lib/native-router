@@ -1,10 +1,16 @@
-module.exports = {
-  preset: 'ts-jest',
+export default {
   testEnvironment: 'node',
   roots: ['<rootDir>/src'],
   transform: {
-    '^.+\\.ts$': 'ts-jest'
+    '(^.+\\.tsx?$)|(@mntm)': ['esbuild-jest', {
+      sourcemap: false
+    }]
   },
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node']
+  transformIgnorePatterns: [
+    '/node_modules/(?!@mntm)'
+  ],
+  testRegex: '/__tests__/.+(test|spec)\\.tsx?$',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
+  resolver: "jest-ts-webcompat-resolver"
 };
