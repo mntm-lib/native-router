@@ -30,19 +30,16 @@ export const changeRoot = (root: string, fallback: Readonly<RealHistoryFallback>
     // change to same root
 
     const start = realHistory[indexStart];
-    if (isPartialEqual(partial, start)) {
-      // started with fallback
 
-      // move to fallback
-      moveTo(indexStart);
-      return;
+    // started with fallback
+    if (!isPartialEqual(partial, start)) {
+      afterUpdateHistory(() => {
+        replacePartial(partial);
+      });
     }
 
-    // should move to start and replace with fallback
-    afterUpdateHistory(() => {
-      replacePartial(partial);
-    });
     moveTo(indexStart);
+    return;
   }
 
   // found in history
