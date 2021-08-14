@@ -2,7 +2,7 @@ import type { RealHistoryItem, RealHistoryParams, RealHistoryPartial } from './t
 
 import { realCurrent, realHistory } from './real.js';
 import { popNative } from './native.js';
-import { replace, replacePartial, replacePanel, replaceView, replacePartialParams, replaceParams } from './replace.js';
+import { replace, replacePanel, replaceParams, replacePartial, replacePartialParams, replaceView } from './replace.js';
 
 const __dev__ = process.env.NODE_ENV === 'development';
 
@@ -13,11 +13,9 @@ export const canPop = () => {
 export const popUnsafe = popNative;
 
 export const pop = () => {
-  if (__dev__) {
-    if (!canPop()) {
-      console.warn('Nowhere to pop.');
-      console.warn('Make sure you are doing it right.');
-    }
+  if (__dev__ && !canPop()) {
+    console.warn('Nowhere to pop.');
+    console.warn('Make sure you are doing it right.');
   }
 
   if (canPop()) {
@@ -27,14 +25,17 @@ export const pop = () => {
 
 export const popIfCan = (): boolean => {
   const can = canPop();
+
   if (can) {
     popUnsafe();
   }
+
   return !can;
 };
 
 export const popOverlay = () => {
   const current = realCurrent();
+
   if (current.params.modal || current.params.popout) {
     pop();
   }
@@ -42,6 +43,7 @@ export const popOverlay = () => {
 
 export const popModal = () => {
   const current = realCurrent();
+
   if (current.params.modal) {
     pop();
   }
@@ -49,6 +51,7 @@ export const popModal = () => {
 
 export const popPopout = () => {
   const current = realCurrent();
+
   if (current.params.popout) {
     pop();
   }
@@ -80,28 +83,25 @@ export const popOrReplaceView = (panel: string, view: string) => {
 
 export const popOrClearOverlay = () => {
   const current = realCurrent();
-  if (current.params.modal || current.params.popout) {
-    if (popIfCan()) {
-      replacePartialParams({ modal: null, popout: null });
-    }
+
+  if ((current.params.modal || current.params.popout) && popIfCan()) {
+    replacePartialParams({ modal: null, popout: null });
   }
 };
 
 export const popOrClearModal = () => {
   const current = realCurrent();
-  if (current.params.modal) {
-    if (popIfCan()) {
-      replacePartialParams({ modal: null });
-    }
+
+  if (current.params.modal && popIfCan()) {
+    replacePartialParams({ modal: null });
   }
 };
 
 export const popOrClearPopout = () => {
   const current = realCurrent();
-  if (current.params.popout) {
-    if (popIfCan()) {
-      replacePartialParams({ popout: null });
-    }
+
+  if (current.params.popout && popIfCan()) {
+    replacePartialParams({ popout: null });
   }
 };
 

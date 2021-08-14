@@ -18,30 +18,32 @@ export const unlock = () => {
 };
 
 const popHandler = ({ state }: PopStateEvent) => {
-  // prevent edge case
+  // Prevent edge case
+  // eslint-disable-next-line unicorn/new-for-builtins, no-param-reassign
   state = Object(state);
 
   const to = findLastIndex(realHistory, (item) => item.id === state.id);
+
   if (to === -1) {
     if (__dev__) {
       console.warn('Something went wrong. History moved forward or changed from outside.');
       console.warn('Automatically trying to get back to normal.');
     }
 
-    // prevent
+    // Prevent
     popNative();
 
     return;
   }
 
   if (locked) {
-    // prevent
+    // Prevent
     pushNative({ id: realCurrent().id });
   } else {
-    // real
+    // Real
     setHistory(realHistory.slice(0, to + 1));
 
-    // native noop
+    // Native noop
   }
 };
 
@@ -50,24 +52,22 @@ export const init = (item: Readonly<RealHistoryInit>) => {
 
   const id = weakUniqueId();
 
-  // update item
+  // Update item
   first.id = id;
   first.params = Object.assign({}, first.params);
 
-  // real
+  // Real
   realHistory.push(first);
   setHistory(realHistory);
 
-  // native
+  // Native
   replaceNative({ id });
 };
 
 export const start = () => {
-  if (__dev__) {
-    if (realIndex() === -1) {
-      console.warn('Router started without initialization.');
-      console.warn('Make sure you are doing it right.');
-    }
+  if (__dev__ && realIndex() === -1) {
+    console.warn('Router started without initialization.');
+    console.warn('Make sure you are doing it right.');
   }
 
   window.addEventListener('popstate', popHandler);

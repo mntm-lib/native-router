@@ -2,7 +2,7 @@ import type { NativeHistoryItem } from './types.js';
 
 const nativeHistory = window.history;
 
-// title is not supported but required
+// Title is not supported but required
 // so just empty string
 const NATIVE_STUB = '';
 

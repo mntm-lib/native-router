@@ -4,5 +4,8 @@
   "parserOptions": {
     "project": "./tsconfig.json",
     "tsconfigRootDir": "."
+  },
+  "rules": {
+    "sonarjs/no-duplicate-string": 0
   }
 }

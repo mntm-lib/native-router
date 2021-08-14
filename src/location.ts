@@ -8,7 +8,7 @@ import { realCurrent } from './real.js';
 const EMPTY = '';
 const SEPARATOR = '/';
 
-// fastest stringify
+// Fastest stringify
 export const buildLocation = (item: Readonly<RealHistoryItem>) => {
   let location = EMPTY;
 
@@ -30,13 +30,15 @@ export const buildLocation = (item: Readonly<RealHistoryItem>) => {
 
   let params = EMPTY;
   const raw = item.params;
+
   for (const key in raw) {
     const value = raw[key];
+
     if (!isOptional(value)) {
       if (params !== EMPTY) {
         params += '&';
       }
-      params += key + '=' + value;
+      params += `${key}=${value}`;
     }
   }
 
@@ -44,10 +46,10 @@ export const buildLocation = (item: Readonly<RealHistoryItem>) => {
     return location;
   }
 
-  return location + '?' + params;
+  return `${location}?${params}`;
 };
 
-// fastest parse
+// Fastest parse
 export const parseLocation = (location: string) => {
   const split = location.split('?');
 
@@ -68,6 +70,7 @@ export const parseLocation = (location: string) => {
 
     for (const pair of pairs) {
       const parsed = pair.split('=');
+
       item.params[parsed[0]] = parsed[1] || EMPTY;
     }
   }

@@ -3,22 +3,22 @@ import type { RealHistoryItem, RealHistoryParams, RealHistoryPartial } from './t
 import { weakUniqueId } from '@mntm/shared';
 
 import { pushNative } from './native.js';
-import { realHistory, realCurrent, setHistory } from './real.js';
+import { realCurrent, realHistory, setHistory } from './real.js';
 
 export const push = (item: Readonly<RealHistoryItem>) => {
   const next = item as RealHistoryItem;
 
   const id = weakUniqueId();
 
-  // update item
+  // Update item
   next.id = id;
   next.params = Object.assign({}, item.params);
 
-  // real
+  // Real
   realHistory.push(next);
   setHistory(realHistory);
 
-  // native
+  // Native
   pushNative({ id });
 };
 
@@ -40,6 +40,7 @@ export const pushParams = (params: Readonly<RealHistoryParams>) => {
 
 export const pushPartialParams = (params: Readonly<RealHistoryParams>) => {
   const current = realCurrent();
+
   pushParams(Object.assign({}, current.params, params));
 };
 

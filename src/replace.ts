@@ -1,6 +1,6 @@
 import type { RealHistoryItem, RealHistoryParams, RealHistoryPartial } from './types.js';
 
-import { realCurrent, realIndex, realHistory, setHistory } from './real.js';
+import { realCurrent, realHistory, realIndex, setHistory } from './real.js';
 
 import { replaceNative } from './native.js';
 
@@ -9,15 +9,15 @@ export const replace = (item: Readonly<RealHistoryItem>) => {
 
   const id = realCurrent().id;
 
-  // update item
+  // Update item
   next.id = id;
   next.params = Object.assign({}, item.params);
 
-  // real
+  // Real
   realHistory[realIndex()] = next;
   setHistory(realHistory);
 
-  // native
+  // Native
   replaceNative({ id });
 };
 
@@ -39,6 +39,7 @@ export const replaceParams = (params: Readonly<RealHistoryParams>) => {
 
 export const replacePartialParams = (params: Readonly<RealHistoryParams>) => {
   const current = realCurrent();
+
   replaceParams(Object.assign({}, current.params, params));
 };
 
@@ -56,6 +57,7 @@ export const replacePopout = (popout: string) => {
 
 export const replaceClearParamsExceptOverlay = () => {
   const current = realCurrent();
+
   replaceParams({
     modal: current.params.modal,
     popout: current.params.popout
@@ -64,6 +66,7 @@ export const replaceClearParamsExceptOverlay = () => {
 
 export const replaceClearParamsExceptModal = () => {
   const current = realCurrent();
+
   replaceParams({
     modal: current.params.modal
   });
@@ -71,6 +74,7 @@ export const replaceClearParamsExceptModal = () => {
 
 export const replaceClearParamsExceptPopout = () => {
   const current = realCurrent();
+
   replaceParams({
     popout: current.params.popout
   });
