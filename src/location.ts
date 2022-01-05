@@ -1,26 +1,35 @@
 import type { RealHistoryItem } from './types.js';
 
-import { isOptional, weakUniqueId } from '@mntm/shared';
+import { fastUniqueId, stringifyParams } from '@mntm/shared';
 
 import { watchHistory } from './history.js';
 import { realCurrent } from './real.js';
 
 const EMPTY = '';
+const DEFAULT = [EMPTY, 'home', 'main', 'index'];
 const SEPARATOR = '/';
 
 // Fastest stringify
 export const buildLocation = (item: Readonly<RealHistoryItem>) => {
   let location = EMPTY;
 
-  if (item.root !== EMPTY) {
+  if (
+    !DEFAULT.includes(item.root)
+  ) {
     location += SEPARATOR + item.root;
   }
 
-  if (item.view !== EMPTY) {
+  if (
+    !DEFAULT.includes(item.view) &&
+    item.view !== item.root
+  ) {
     location += SEPARATOR + item.view;
   }
 
-  if (item.panel !== EMPTY) {
+  if (
+    !DEFAULT.includes(item.panel) &&
+    item.panel !== item.view
+  ) {
     location += SEPARATOR + item.panel;
   }
 
@@ -28,19 +37,7 @@ export const buildLocation = (item: Readonly<RealHistoryItem>) => {
     location = SEPARATOR;
   }
 
-  let params = EMPTY;
-  const raw = item.params;
-
-  for (const key in raw) {
-    const value = raw[key];
-
-    if (!isOptional(value)) {
-      if (params !== EMPTY) {
-        params += '&';
-      }
-      params += `${key}=${value}`;
-    }
-  }
+  const params = stringifyParams(item.params);
 
   if (params === EMPTY) {
     return location;
@@ -55,12 +52,16 @@ export const parseLocation = (location: string) => {
 
   const structure = split[0].split(SEPARATOR);
 
-  const item: RealHistoryItem = {
-    id: weakUniqueId(),
+  const root = structure.pop() || EMPTY;
+  const view = structure.pop() || root;
+  const panel = structure.pop() || view;
 
-    panel: structure.pop() || EMPTY,
-    view: structure.pop() || EMPTY,
-    root: structure.pop() || EMPTY,
+  const item: RealHistoryItem = {
+    id: fastUniqueId(),
+
+    panel,
+    view,
+    root,
 
     params: {}
   };

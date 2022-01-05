@@ -1,23 +1,65 @@
+import type { AnyFunction } from '@mntm/shared';
 import type { NativeHistoryItem } from './types.js';
 
-const nativeHistory = window.history;
+import { dom, noop } from '@mntm/shared';
 
-// Title is not supported but required
-// so just empty string
-const NATIVE_STUB = '';
+const nativeHistory = (dom && window.history) || ({} as unknown as History);
+const nativeScroll = 'scrollRestoration';
+
+export const listenNative = (type: string, handler: AnyFunction) => {
+  if (dom) {
+    window.addEventListener(type, handler, false);
+
+    return () => window.removeEventListener(type, handler, false);
+  }
+
+  return noop;
+};
+
+export const scrollNative = () => {
+  if (nativeScroll in nativeHistory) {
+    nativeHistory[nativeScroll] = 'manual';
+  }
+};
 
 export const pushNative = (item: Readonly<NativeHistoryItem>) => {
-  nativeHistory.pushState(item, NATIVE_STUB);
+  if (dom) {
+    nativeHistory.pushState(item, document.title);
+  }
 };
 
 export const replaceNative = (item: Readonly<NativeHistoryItem>) => {
-  nativeHistory.replaceState(item, NATIVE_STUB);
+  if (dom) {
+    nativeHistory.replaceState(item, document.title);
+  }
 };
 
 export const popNative = () => {
-  nativeHistory.back();
+  if (dom) {
+    nativeHistory.back();
+  }
 };
 
 export const moveByNative = (by: number) => {
-  nativeHistory.go(by);
+  if (dom) {
+    nativeHistory.go(by);
+  }
+};
+
+export const updateNative = () => {
+  if (dom) {
+    replaceNative(nativeHistory.state);
+  }
+};
+
+export const lifecycleNative = () => {
+  if (dom) {
+    scrollNative();
+
+    // Fix scroll
+    listenNative('focus', scrollNative);
+
+    // Fix state
+    listenNative('blur', updateNative);
+  }
 };

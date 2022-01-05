@@ -7,4 +7,4 @@ tsconfig.json
 yarn.lock
 node_modules/
 src/
-docs/
+example/

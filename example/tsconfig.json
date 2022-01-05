@@ -21,15 +21,17 @@
     "baseUrl": ".",
     "skipLibCheck": true,
     "isolatedModules": true,
+    "incremental": true,
     "declaration": true,
-    "outDir": "lib"
+    "outDir": "dist",
+    "allowJs": true,
+    "noEmit": true,
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
-    "lib",
-    "example",
+    "dist",
     "node_modules"
   ]
 }

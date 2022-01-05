@@ -1,10 +1,13 @@
 export {
-  start,
-  stop,
-  init,
-  lock,
-  unlock
+  init
 } from './init.js';
+
+export {
+  lock,
+  unlock,
+  start,
+  stop
+} from './flow.js';
 
 export {
   swipeHistory,
@@ -17,6 +20,7 @@ export {
 export {
   moveBy,
   moveTo,
+  moveToPartial,
   moveToPanel,
   moveToRoot,
   moveToView,
@@ -30,6 +34,7 @@ export {
 } from './move.js';
 
 export {
+  updateNative,
   moveByNative,
   popNative,
   pushNative,
@@ -106,6 +111,14 @@ export {
   useMemoCurrent,
   useMemoParams
 } from './hooks.js';
+
+export {
+  navEpic,
+  navModal,
+  navPanel,
+  navRoot,
+  navView
+} from './hoc.js';
 
 export {
   historyEmitter,

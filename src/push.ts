@@ -1,6 +1,6 @@
 import type { RealHistoryItem, RealHistoryParams, RealHistoryPartial } from './types.js';
 
-import { weakUniqueId } from '@mntm/shared';
+import { fastUniqueId } from '@mntm/shared';
 
 import { pushNative } from './native.js';
 import { realCurrent, realHistory, setHistory } from './real.js';
@@ -8,7 +8,7 @@ import { realCurrent, realHistory, setHistory } from './real.js';
 export const push = (item: Readonly<RealHistoryItem>) => {
   const next = item as RealHistoryItem;
 
-  const id = weakUniqueId();
+  const id = fastUniqueId();
 
   // Update item
   next.id = id;

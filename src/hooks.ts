@@ -1,23 +1,20 @@
 import type { Optional } from '@mntm/shared';
 
-import { findLast, useCreation, useHandler, useMount, useUpdate } from '@mntm/shared';
+import { useState } from 'react';
+import { findLast, useCreation, useHandler, useLayoutMount } from '@mntm/shared';
 
-import { unwatchHistory, watchHistory } from './history.js';
+import { watchHistory } from './history.js';
 import { realCurrent, realHistory } from './real.js';
 
 const __dev__ = process.env.NODE_ENV === 'development';
 
 // Cannot be marked as readonly
 export const useHistoryUpdate = () => {
-  const update = useUpdate();
+  const [page, setPage] = useState(realCurrent);
 
-  useMount(() => {
-    watchHistory(update);
+  useLayoutMount(() => watchHistory(setPage));
 
-    return () => unwatchHistory(update);
-  });
-
-  return realCurrent();
+  return page;
 };
 
 // Store as global is safe and does not overcomplicate structure

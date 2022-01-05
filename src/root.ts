@@ -64,7 +64,7 @@ export const changeRoot = (root: string, fallback: Readonly<RealHistoryFallback>
   const indexEnd = findLastIndex(realHistory, sameRoot);
   const savedHistorySlice = realHistory.splice(indexStart, indexEnd - indexStart + 1);
 
-  realHistory.push(...savedHistorySlice);
+  realHistory.push.apply(realHistory, savedHistorySlice);
 
   // Re-assign all ids
   realHistory.forEach((item, i) => {

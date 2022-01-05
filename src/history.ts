@@ -1,25 +1,41 @@
+import type { RealHistoryItem } from './types.js';
+
 import { default as mitt } from 'mitt';
+import { batch } from '@mntm/shared';
 
-export const historyEmitter = mitt();
+import { realCurrent } from './real.js';
 
-const EVENT = 'update';
+const UPDATE = 'update';
 
-export const watchHistory = (handle: VoidFunction) => {
-  historyEmitter.on(EVENT, handle);
+type HistoryEvents = {
+  [UPDATE]: RealHistoryItem;
 };
 
-export const unwatchHistory = (handle: VoidFunction) => {
-  historyEmitter.off(EVENT, handle);
+type HistoryHandler = (current: RealHistoryItem) => void;
+
+export const historyEmitter = mitt<HistoryEvents>();
+
+export const unwatchHistory = (handle: HistoryHandler) => {
+  historyEmitter.off(UPDATE, handle);
 };
 
-export const afterUpdateHistory = (handle: VoidFunction) => {
-  const once = () => {
+export const watchHistory = (handle: HistoryHandler) => {
+  historyEmitter.on(UPDATE, handle);
+
+  return () => unwatchHistory(handle);
+};
+
+export const afterUpdateHistory = (handle: HistoryHandler) => {
+  const once = (current: RealHistoryItem) => {
     unwatchHistory(once);
-    handle();
+    handle(current);
   };
+
   watchHistory(once);
 };
 
 export const updateHistory = () => {
-  historyEmitter.emit(EVENT);
+  batch(() => {
+    historyEmitter.emit(UPDATE, realCurrent());
+  });
 };
