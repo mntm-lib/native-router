@@ -4,7 +4,7 @@ import type { AnyFunction } from '@mntm/shared';
 import { createElement, useMemo } from 'react';
 
 import { useHistoryUpdate } from './hooks.js';
-import { memoPanel, memoView, paramsModal, swipeHistory } from './integration.js';
+import { memoPanel, memoView, swipeHistory } from './integration.js';
 import { pop, popOrClearModal } from './pop.js';
 
 type ExtendProps<T extends ComponentType<any>, C extends T> = Omit<ComponentProps<C>, keyof ComponentProps<T>>;
@@ -45,12 +45,15 @@ export const navModal = <C extends ComponentModal>(Component: C) => {
   return (props: ComponentModalProps<C>) => {
     const current = useHistoryUpdate();
 
+    // Prevent undefined->null and null->undefined
+    const modal = current.params.modal || null;
+
     return useMemo(() => {
       return createElement(Component, Object.assign({
-        activeModal: paramsModal(),
+        activeModal: modal,
         onClose: popOrClearModal
       }, props));
-    }, [current.params.modal]);
+    }, [modal]);
   };
 };
 
