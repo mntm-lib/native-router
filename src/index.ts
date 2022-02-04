@@ -30,7 +30,9 @@ export {
   canMoveBy,
   canMoveTo,
   moveByUnsafe,
-  moveToUnsafe
+  moveToUnsafe,
+  moveToLocation,
+  moveToLocationParams
 } from './move.js';
 
 export {
@@ -70,7 +72,10 @@ export {
   pushPartialParams,
   pushClearParams,
   pushModal,
-  pushPopout
+  pushPopout,
+  pushLocation,
+  pushLocationParams,
+  pushPartialLocationParams
 } from './push.js';
 
 export {
@@ -92,11 +97,16 @@ export {
   replaceParams,
   replacePartialParams,
   replaceModal,
-  replacePopout
+  replacePopout,
+  replaceLocation,
+  replaceLocationParams,
+  replacePartialLocationParams
 } from './replace.js';
 
 export {
-  changeRoot
+  pushRoot,
+  changeRoot,
+  universalRoot
 } from './root.js';
 
 export {
@@ -131,7 +141,9 @@ export {
 export {
   buildLocation,
   parseLocation,
-  setLocationHandler
+  parseLocationParams,
+  setLocationHandler,
+  DEFAULT
 } from './location.js';
 
 export type {

@@ -4,6 +4,8 @@ import { realCurrent, realHistory, realIndex, setHistory } from './real.js';
 
 import { replaceNative } from './native.js';
 
+import { parseLocation, parseLocationParams } from './location.js';
+
 export const replace = (item: Readonly<RealHistoryItem>) => {
   const next = item as RealHistoryItem;
 
@@ -78,4 +80,16 @@ export const replaceClearParamsExceptPopout = () => {
   replaceParams({
     popout: current.params.popout
   });
+};
+
+export const replaceLocation = (location: string | URL) => {
+  replace(parseLocation(location));
+};
+
+export const replaceLocationParams = (locationParams: string | URLSearchParams) => {
+  replaceParams(parseLocationParams(locationParams));
+};
+
+export const replacePartialLocationParams = (locationParams: string | URLSearchParams) => {
+  replacePartialParams(parseLocationParams(locationParams));
 };

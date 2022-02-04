@@ -5,6 +5,8 @@ import { fastUniqueId } from '@mntm/shared';
 import { realHistory, setHistory } from './real.js';
 import { lifecycleNative, replaceNative } from './native.js';
 
+import { start } from './flow.js';
+
 export const init = (item: Readonly<RealHistoryInit>) => {
   const first = item as RealHistoryItem;
 
@@ -21,4 +23,7 @@ export const init = (item: Readonly<RealHistoryInit>) => {
   // Native
   lifecycleNative();
   replaceNative({ id });
+
+  // Start handle history
+  start();
 };

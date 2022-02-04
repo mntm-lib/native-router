@@ -5,6 +5,8 @@ import { findLastIndex, isPartialEqual, isShallowEqual } from '@mntm/shared';
 import { realHistory, realIndex, setHistory } from './real.js';
 import { moveByNative } from './native.js';
 
+import { parseLocation, parseLocationParams } from './location.js';
+
 const __dev__ = process.env.NODE_ENV === 'development';
 
 export const canMoveTo = (to: number) => {
@@ -83,4 +85,12 @@ export const moveToRoot = (root: string) => {
 
 export const moveToId = (id: string) => {
   moveToPartial({ id });
+};
+
+export const moveToLocation = (location: string | URL) => {
+  moveToPartial(parseLocation(location));
+};
+
+export const moveToLocationParams = (locationParams: string | URLSearchParams) => {
+  moveToParams(parseLocationParams(locationParams));
 };

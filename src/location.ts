@@ -1,35 +1,28 @@
-import type { RealHistoryItem } from './types.js';
+import type { RealHistoryItem, RealHistoryParams } from './types.js';
 
-import { fastUniqueId, stringifyParams } from '@mntm/shared';
+import { fastUniqueId, parseHashParams, stringifyParams } from '@mntm/shared';
 
 import { watchHistory } from './history.js';
 import { realCurrent } from './real.js';
 
 const EMPTY = '';
-const DEFAULT = [EMPTY, 'home', 'main', 'index'];
 const SEPARATOR = '/';
+
+export const DEFAULT = 'default';
 
 // Fastest stringify
 export const buildLocation = (item: Readonly<RealHistoryItem>) => {
   let location = EMPTY;
 
-  if (
-    !DEFAULT.includes(item.root)
-  ) {
+  if (item.root !== DEFAULT) {
     location += SEPARATOR + item.root;
   }
 
-  if (
-    !DEFAULT.includes(item.view) &&
-    item.view !== item.root
-  ) {
+  if (item.view !== DEFAULT) {
     location += SEPARATOR + item.view;
   }
 
-  if (
-    !DEFAULT.includes(item.panel) &&
-    item.panel !== item.view
-  ) {
+  if (item.panel !== DEFAULT) {
     location += SEPARATOR + item.panel;
   }
 
@@ -46,15 +39,22 @@ export const buildLocation = (item: Readonly<RealHistoryItem>) => {
   return `${location}?${params}`;
 };
 
+// Fastest parse params
+export const parseLocationParams = (locationParams: string | URLSearchParams) => {
+  return parseHashParams(locationParams.toString()) as RealHistoryParams;
+};
+
 // Fastest parse
-export const parseLocation = (location: string) => {
-  const split = location.split('?');
+export const parseLocation = (location: string | URL) => {
+  const split = location.toString().split('?');
 
   const structure = split[0].split(SEPARATOR);
 
-  const root = structure.pop() || EMPTY;
-  const view = structure.pop() || root;
-  const panel = structure.pop() || view;
+  const panel = structure.pop() || DEFAULT;
+  const view = structure.pop() || DEFAULT;
+  const root = structure.pop() || DEFAULT;
+
+  const params = split.length === 2 ? parseLocationParams(split[1]) : {};
 
   const item: RealHistoryItem = {
     id: fastUniqueId(),
@@ -63,18 +63,8 @@ export const parseLocation = (location: string) => {
     view,
     root,
 
-    params: {}
+    params
   };
-
-  if (split.length === 2) {
-    const pairs = split[1].split('&');
-
-    for (const pair of pairs) {
-      const parsed = pair.split('=');
-
-      item.params[parsed[0]] = parsed[1] || EMPTY;
-    }
-  }
 
   return item;
 };

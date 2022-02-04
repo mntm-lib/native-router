@@ -5,6 +5,8 @@ import { fastUniqueId } from '@mntm/shared';
 import { pushNative } from './native.js';
 import { realCurrent, realHistory, setHistory } from './real.js';
 
+import { parseLocation, parseLocationParams } from './location.js';
+
 export const push = (item: Readonly<RealHistoryItem>) => {
   const next = item as RealHistoryItem;
 
@@ -54,4 +56,16 @@ export const pushModal = (modal: string) => {
 
 export const pushPopout = (popout: string) => {
   pushPartialParams({ popout });
+};
+
+export const pushLocation = (location: string | URL) => {
+  push(parseLocation(location));
+};
+
+export const pushLocationParams = (locationParams: string | URLSearchParams) => {
+  pushParams(parseLocationParams(locationParams));
+};
+
+export const pushPartialLocationParams = (locationParams: string | URLSearchParams) => {
+  pushPartialParams(parseLocationParams(locationParams));
 };

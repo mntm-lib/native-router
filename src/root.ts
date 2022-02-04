@@ -74,3 +74,18 @@ export const changeRoot = (root: string, fallback: Readonly<RealHistoryFallback>
   // Update
   setHistory(realHistory);
 };
+
+export const pushRoot = (root: string, fallback: Readonly<RealHistoryFallback>) => {
+  const partial = fallback as RealHistoryPartial;
+
+  partial.root = root;
+  pushPartial(partial);
+};
+
+export const universalRoot = (needChange: boolean, root: string, fallback: Readonly<RealHistoryFallback>) => {
+  if (needChange) {
+    changeRoot(root, fallback);
+  } else {
+    pushRoot(root, fallback);
+  }
+};

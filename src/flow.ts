@@ -46,6 +46,15 @@ const popHandler = ({ state }: PopStateEvent) => {
 };
 
 export const start = () => {
+  if (free !== noop) {
+    if (__dev__) {
+      console.warn('Router is already started.');
+      console.warn('Make sure you are doing it right.');
+    }
+
+    return;
+  }
+
   if (__dev__ && realIndex() === -1) {
     console.warn('Router started without initialization.');
     console.warn('Make sure you are doing it right.');
