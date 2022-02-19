@@ -1,4 +1,4 @@
-# @mntm/native-router [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/maxi-team/native-router/blob/master/LICENSE) [![npm bundle size](https://img.shields.io/bundlephobia/min/@mntm/native-router)](https://bundlephobia.com/result?p=@mntm/native-router) ![](https://img.shields.io/badge/minimal%20size-1056B-blue)
+# @mntm/native-router [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/maxi-team/native-router/blob/master/LICENSE) [![npm bundle size](https://img.shields.io/bundlephobia/min/@mntm/native-router)](https://bundlephobia.com/result?p=@mntm/native-router) ![](https://img.shields.io/badge/minimal%20size-1056%20B-blue)
 
 **Docs:** RU | EN
 
